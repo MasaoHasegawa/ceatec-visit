@@ -1,0 +1,360 @@
+<title>CEATEC 2026 訪問リスト</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@500;700&family=Zen+Kaku+Gothic+New:wght@700;900&display=swap">
+<style>
+/* Layout: 展示会場の「回る順」を軸に。上部固定バーに件数、本文は1カラムのリスト、訪問プランはホール別・ブース順 */
+:root{
+  --bg:#f3f5f9; --surface:#ffffff; --ink:#141a2e; --muted:#5d657c; --line:#dce1ea;
+  --accent:#1d4ed8; --accent-soft:#e3eafc; --done:#15803d; --done-soft:#dcf2e3; --warn:#b42318;
+  --a-gen:#0c1a49; --a-x:#7c3aed; --a-next:#d02ca8; --a-global:#00a58e;
+  --f-display:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic UI",sans-serif;
+  --f-body:"IBM Plex Sans JP","Hiragino Sans","Yu Gothic UI","Meiryo",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"Consolas",monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1220; --surface:#161b2b; --ink:#e7eaf3; --muted:#9aa2b9; --line:#283047;
+  --accent:#86a8ff; --accent-soft:#1d2a4d; --done:#4ade80; --done-soft:#12301f; --warn:#f97066;
+  --a-gen:#93a6e6; --a-x:#b28cff; --a-next:#f27ad6; --a-global:#3fe0c5; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1220; --surface:#161b2b; --ink:#e7eaf3; --muted:#9aa2b9; --line:#283047;
+  --accent:#86a8ff; --accent-soft:#1d2a4d; --done:#4ade80; --done-soft:#12301f; --warn:#f97066;
+  --a-gen:#93a6e6; --a-x:#b28cff; --a-next:#f27ad6; --a-global:#3fe0c5; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;margin:0}
+.wrap{max-width:880px;margin:0 auto;padding-inline:16px;padding-block:0 64px}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
+.hd{max-width:880px;margin:0 auto;padding:12px 16px 0;display:flex;flex-wrap:wrap;align-items:end;gap:8px 16px}
+.brand{flex:1 1 260px;min-width:0}
+.brand h1{font-family:var(--f-display);font-weight:900;font-size:1.45rem;line-height:1.2;margin:0;letter-spacing:.01em;text-wrap:balance}
+.brand p{margin:2px 0 0;color:var(--muted);font-size:.8rem}
+.tally{display:flex;gap:6px;font-variant-numeric:tabular-nums}
+.tally span{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 12px;font-size:.82rem;white-space:nowrap}
+.tally b{font-family:var(--f-mono);font-size:1rem;margin-right:2px}
+.tally .t-go b{color:var(--accent)} .tally .t-done b{color:var(--done)}
+.tabs{max-width:880px;margin:0 auto;padding:8px 16px 0;display:flex;gap:4px}
+.tabs button{border:0;background:none;padding:8px 14px 10px;cursor:pointer;color:var(--muted);font-weight:500;border-bottom:3px solid transparent}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+
+.controls{display:grid;gap:10px;padding-block:16px 8px}
+.search{width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 12px;font-size:.82rem;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--c,var(--muted));flex:none}
+select.chip{padding-right:8px}
+.count{color:var(--muted);font-size:.82rem;font-variant-numeric:tabular-nums;margin-left:auto}
+
+.list{display:grid;gap:0;border-top:1px solid var(--line)}
+.ex{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 12px;padding:12px 4px;border-bottom:1px solid var(--line);align-items:start}
+.ex.on{background:var(--accent-soft)}
+.ck{width:22px;height:22px;margin:2px 0 0;accent-color:var(--accent);cursor:pointer}
+.ex h3{font-size:1rem;font-weight:700;margin:0;line-height:1.4;overflow-wrap:anywhere}
+.ex h3 label{cursor:pointer}
+.meta{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:.78rem;color:var(--muted);margin-top:2px;align-items:center}
+.area{display:inline-flex;align-items:center;gap:5px;color:var(--c)}
+.tag{border:1px solid var(--line);border-radius:4px;padding:0 6px;font-size:.72rem}
+.booth{font-family:var(--f-mono);font-weight:700;font-size:.86rem;letter-spacing:.02em;border:1.5px solid var(--c,var(--line));color:var(--c,var(--ink));border-radius:6px;padding:1px 8px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.booth.none{border-style:dashed;color:var(--muted);border-color:var(--line);font-weight:500}
+.desc{grid-column:2/4;margin:4px 0 0;font-size:.86rem;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer}
+.desc.open{-webkit-line-clamp:unset}
+.links{grid-column:2/4;display:flex;flex-wrap:wrap;gap:12px;font-size:.8rem}
+.links a{color:var(--accent)}
+.kids{grid-column:2/4;margin:6px 0 0;padding:0;list-style:none;border-left:2px solid var(--line)}
+.kids li{display:flex;gap:10px;align-items:center;padding:4px 0 4px 12px;font-size:.88rem}
+.kids li.on{background:var(--accent-soft)}
+.kids .ck{width:18px;height:18px;margin:0}
+.kids label{flex:1;min-width:0;overflow-wrap:anywhere;cursor:pointer}
+.kids .booth{font-size:.74rem}
+.more{border:0;background:none;color:var(--accent);padding:0;cursor:pointer;font-size:.8rem}
+.empty{padding:40px 0;text-align:center;color:var(--muted)}
+
+/* 訪問プラン */
+.halls{display:flex;flex-wrap:wrap;gap:6px;padding-block:16px 4px}
+.halls a{text-decoration:none;color:var(--ink);border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 12px;font-size:.82rem;font-variant-numeric:tabular-nums}
+.halls a b{font-family:var(--f-mono)}
+.hall{margin-top:20px}
+.hall h2{font-family:var(--f-display);font-weight:700;font-size:1.15rem;margin:0 0 6px;display:flex;align-items:baseline;gap:10px}
+.hall h2 small{font-family:var(--f-body);font-weight:400;font-size:.8rem;color:var(--muted)}
+.pl{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto;gap:6px 12px;align-items:center;padding:10px 4px;border-bottom:1px solid var(--line)}
+.pl:first-of-type{border-top:1px solid var(--line)}
+.pl.done{background:var(--done-soft)}
+.pl.done .nm{text-decoration:line-through;text-decoration-color:var(--done);color:var(--muted)}
+.pl .ck{accent-color:var(--done)}
+.pl .nm{font-weight:700;overflow-wrap:anywhere;line-height:1.4}
+.pl .nm small{display:block;font-weight:400;font-size:.75rem;color:var(--muted)}
+.pl .memo{grid-column:3/5;width:100%;border:1px solid var(--line);border-radius:6px;padding:4px 8px;background:var(--surface);font-size:.84rem}
+.x{border:0;background:none;color:var(--muted);cursor:pointer;font-size:1.1rem;line-height:1;padding:4px 6px}
+.x:hover{color:var(--warn)}
+
+.tools{margin-top:32px;display:grid;gap:12px;border-top:1px solid var(--line);padding-top:20px}
+.tools h3{margin:0;font-size:.95rem}
+.tools p{margin:0;color:var(--muted);font-size:.82rem}
+.btn{border:1px solid var(--ink);background:var(--ink);color:var(--bg);border-radius:8px;padding:7px 14px;cursor:pointer;font-size:.86rem}
+.btn.ghost{background:var(--surface);color:var(--ink);border-color:var(--line)}
+.btn.danger{background:var(--surface);color:var(--warn);border-color:var(--warn)}
+textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--surface);font-family:var(--f-mono);font-size:.75rem}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:999px;font-size:.85rem;z-index:20}
+footer{margin-top:40px;color:var(--muted);font-size:.75rem}
+footer a{color:inherit}
+@media (max-width:480px){.ex{grid-template-columns:auto minmax(0,1fr)}.ex .booth-col{grid-column:2;justify-self:start}.desc,.links,.kids{grid-column:2}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header>
+  <div class="hd">
+    <div class="brand">
+      <h1>CEATEC 2026 訪問リスト</h1>
+      <p>10.13–16 幕張メッセ　出展者 <span id="nEx"></span> 社／共同出展 <span id="nKid"></span> 社（公式一覧 2026-10-05 時点）</p>
+    </div>
+    <div class="tally"><span class="t-go"><b id="cGo">0</b>件 行く</span><span class="t-done"><b id="cDone">0</b>件 訪問済</span></div>
+  </div>
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tabPick" aria-selected="true">出展者を選ぶ</button>
+    <button role="tab" id="tabPlan" aria-selected="false">訪問プラン</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="pick">
+    <div class="controls">
+      <input id="q" class="search" type="search" placeholder="社名・展示内容で検索（例：AI、センサ、電源）" autocomplete="off">
+      <div class="row" id="areas"></div>
+      <div class="row">
+        <select id="hall" class="chip" aria-label="ホール"><option value="">全ホール</option></select>
+        <select id="sort" class="chip" aria-label="並び順"><option value="name">社名順</option><option value="booth">ブース番号順</option></select>
+        <button class="chip" id="fStudent" aria-pressed="false">学生フレンドリー</button>
+        <button class="chip" id="fOn" aria-pressed="false">チェック済のみ</button>
+        <span class="count" id="hit"></span>
+      </div>
+    </div>
+    <div class="list" id="list"></div>
+  </section>
+
+  <section id="plan" hidden>
+    <div class="halls" id="halls"></div>
+    <div id="planBody"></div>
+    <div class="tools">
+      <div><h3>リストを書き出す</h3><p>ブース順のテキストをコピーします。メールやチャットに貼り付けて共有できます。</p></div>
+      <div class="row"><button class="btn" id="copyText">テキストでコピー</button></div>
+      <div><h3>別の端末に引き継ぐ</h3><p>チェックは このブラウザ内に保存されます。PC で選んでスマホで見るときは、コードをコピーして相手側の「読み込む」に貼り付けてください。</p></div>
+      <textarea id="code" aria-label="引き継ぎコード" placeholder="ここに引き継ぎコードを貼り付け"></textarea>
+      <div class="row">
+        <button class="btn" id="copyCode">コードをコピー</button>
+        <button class="btn ghost" id="loadCode">貼り付けたコードを読み込む</button>
+        <span style="flex:1"></span>
+        <button class="btn danger" id="clearAll">すべて解除</button>
+        <button class="btn danger" id="clearYes" hidden>本当に解除する</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>出展者データは <a href="https://www.ceatec.com/ja/exhibition/exhibitor-list.php" target="_blank" rel="noopener">CEATEC 公式 出展者一覧</a> から取得。ブース番号は変更される場合があります。</footer>
+</main>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+const DATA = /*DATA*/;
+const DETAIL = 'https://www.ceatec.com/ja/exhibition/detail.html?id=';
+const AREA = {
+  '一般展示（General Exhibits）':{s:'一般展示',c:'--a-gen'},
+  'X（Transformation）パーク':{s:'Xパーク',c:'--a-x'},
+  'ネクストジェネレーションパーク':{s:'ネクストジェネレーションパーク',c:'--a-next'},
+  'グローバルパーク':{s:'グローバルパーク',c:'--a-global'}
+};
+const KEY = 'ceatec2026-visit';
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+// 出展者と共同出展者を1つの索引に（キーは p親ID / p親ID-連番）
+const ITEMS = {};
+DATA.forEach(p => {
+  p.key = 'p' + p.id;
+  ITEMS[p.key] = {key:p.key, n:p.n, a:p.a, h:p.h, b:p.b, rb:p.rb, rn:0, id:p.o ? p.id : '', parent:null};
+  (p.k || []).forEach((k, i) => {
+    k.key = p.key + '-' + i;
+    ITEMS[k.key] = {key:k.key, n:k.n, a:p.a, h:p.h, b:k.b || p.b, rb:p.rb, id:k.id || '', parent:p.n};
+  });
+  p.hay = (p.n + ' ' + p.d + ' ' + p.b + ' ' + (p.k || []).map(k => k.n).join(' ')).toLowerCase();
+});
+DATA.forEach((p, i) => p.rn = i);
+
+let S = {};
+try { S = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { S = {}; }
+for (const k in S) if (!ITEMS[k]) delete S[k];
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+
+const F = {q:'', area:'', hall:'', sort:'name', student:false, on:false};
+try { Object.assign(F, JSON.parse(sessionStorage.getItem(KEY + '-f') || '{}')); } catch (e) {}
+
+function toast(msg){ const t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => t.hidden = true, 1800); }
+function tally(){
+  const v = Object.values(S);
+  $('#cGo').textContent = v.length;
+  $('#cDone').textContent = v.filter(x => x.v).length;
+  $('#tabPlan').textContent = '訪問プラン（' + v.length + '）';
+}
+
+/* ---------- 出展者を選ぶ ---------- */
+function boothHTML(b, area){
+  const c = AREA[area] ? `style="--c:var(${AREA[area].c})"` : '';
+  return b ? `<span class="booth" ${c}>${esc(b)}</span>` : `<span class="booth none">未定</span>`;
+}
+function rowHTML(p){
+  const ar = AREA[p.a] || {s:p.a, c:'--muted'};
+  const on = !!S[p.key];
+  const tags = (p.t || []).map(t => `<span class="tag">${esc(t.replace(/^💬\s*/, ''))}</span>`).join('');
+  const kids = p.k ? `<ul class="kids">${p.k.map(k => `
+      <li class="${S[k.key] ? 'on' : ''}"><input type="checkbox" class="ck" id="c_${k.key}" data-k="${k.key}" ${S[k.key] ? 'checked' : ''}>
+        <label for="c_${k.key}">${esc(k.n)}</label>${k.b ? `<span class="booth">${esc(k.b)}</span>` : ''}
+        ${k.id ? `<a href="${DETAIL + k.id}" target="_blank" rel="noopener" style="color:var(--accent);font-size:.78rem">詳細</a>` : ''}</li>`).join('')}</ul>` : '';
+  return `<article class="ex ${on ? 'on' : ''}" data-row="${p.key}">
+    <input type="checkbox" class="ck" id="c_${p.key}" data-k="${p.key}" ${on ? 'checked' : ''} aria-label="${esc(p.n)} を訪問リストに追加">
+    <div style="min-width:0">
+      <h3><label for="c_${p.key}">${esc(p.n)}</label></h3>
+      <div class="meta"><span class="area" style="--c:var(${ar.c})"><span class="dot"></span>${esc(ar.s)}</span><span>${esc(p.h)}</span>${p.k ? `<span class="tag">共同出展 ${p.k.length}社</span>` : ''}${tags}</div>
+    </div>
+    <div class="booth-col">${boothHTML(p.b, p.a)}</div>
+    ${p.d ? `<p class="desc" title="タップで全文">${esc(p.d)}</p>` : ''}
+    ${p.o ? `<div class="links"><a href="${DETAIL + p.id}" target="_blank" rel="noopener">公式の出展者ページ ↗</a></div>` : ''}
+    ${kids}
+  </article>`;
+}
+function renderList(){
+  const q = F.q.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  let rows = DATA.filter(p =>
+    (!F.area || p.a === F.area) && (!F.hall || p.h === F.hall) && (!F.student || p.st) &&
+    (!F.on || S[p.key] || (p.k || []).some(k => S[k.key])) &&
+    q.every(w => p.hay.includes(w)));
+  rows.sort(F.sort === 'booth' ? (a, b) => a.rb - b.rb : (a, b) => a.rn - b.rn);
+  $('#hit').textContent = rows.length + ' / ' + DATA.length + ' 社';
+  $('#list').innerHTML = rows.length ? rows.map(rowHTML).join('') : `<p class="empty">条件に合う出展者がありません。検索語や絞り込みを変えてください。</p>`;
+  try { sessionStorage.setItem(KEY + '-f', JSON.stringify(F)); } catch (e) {}
+}
+function initControls(){
+  const areas = $('#areas');
+  const mk = (val, label, c) => `<button class="chip" data-area="${esc(val)}" aria-pressed="${F.area === val}">${c ? `<span class="dot" style="--c:var(${c})"></span>` : ''}${esc(label)}</button>`;
+  areas.innerHTML = mk('', 'すべてのエリア') + Object.entries(AREA).map(([k, v]) => mk(k, v.s, v.c)).join('');
+  areas.addEventListener('click', e => {
+    const b = e.target.closest('[data-area]'); if (!b) return;
+    F.area = b.dataset.area;
+    areas.querySelectorAll('[data-area]').forEach(x => x.setAttribute('aria-pressed', x.dataset.area === F.area));
+    renderList();
+  });
+  const halls = [...new Set(DATA.map(p => p.h))].sort((a, b) => (a.match(/\d+/) ? 0 : 1) - (b.match(/\d+/) ? 0 : 1) || a.localeCompare(b, 'ja', {numeric:true}));
+  $('#hall').insertAdjacentHTML('beforeend', halls.map(h => `<option>${esc(h)}</option>`).join(''));
+  $('#hall').value = F.hall; $('#sort').value = F.sort; $('#q').value = F.q;
+  $('#fStudent').setAttribute('aria-pressed', F.student); $('#fOn').setAttribute('aria-pressed', F.on);
+  $('#hall').onchange = e => { F.hall = e.target.value; renderList(); };
+  $('#sort').onchange = e => { F.sort = e.target.value; renderList(); };
+  let tm; $('#q').oninput = e => { clearTimeout(tm); tm = setTimeout(() => { F.q = e.target.value; renderList(); }, 120); };
+  $('#fStudent').onclick = e => { F.student = !F.student; e.currentTarget.setAttribute('aria-pressed', F.student); renderList(); };
+  $('#fOn').onclick = e => { F.on = !F.on; e.currentTarget.setAttribute('aria-pressed', F.on); renderList(); };
+  $('#list').addEventListener('change', e => {
+    const k = e.target.dataset.k; if (!k) return;
+    if (e.target.checked) S[k] = S[k] || {v:0, m:''}; else delete S[k];
+    e.target.closest('li, .ex').classList.toggle('on', e.target.checked);
+    save(); tally();
+  });
+  $('#list').addEventListener('click', e => { if (e.target.classList.contains('desc')) e.target.classList.toggle('open'); });
+}
+
+/* ---------- 訪問プラン ---------- */
+const hallOrder = h => { const m = h.match(/\d+/); return m ? +m[0] : 99; };
+function planItems(){
+  return Object.keys(S).map(k => ITEMS[k]).sort((a, b) => hallOrder(a.h) - hallOrder(b.h) || a.rb - b.rb || (a.parent ? 1 : 0) - (b.parent ? 1 : 0));
+}
+function renderPlan(){
+  const items = planItems();
+  if (!items.length){
+    $('#halls').innerHTML = '';
+    $('#planBody').innerHTML = `<p class="empty">まだ選ばれていません。「出展者を選ぶ」でチェックを入れると、ここにホール別・ブース番号順で並びます。</p>`;
+    return;
+  }
+  const groups = {};
+  items.forEach(it => (groups[it.h] = groups[it.h] || []).push(it));
+  const hs = Object.keys(groups);
+  $('#halls').innerHTML = hs.map(h => { const g = groups[h]; const d = g.filter(x => S[x.key].v).length;
+    return `<a href="#h${hallOrder(h)}">${esc(h)}　<b>${d}/${g.length}</b></a>`; }).join('');
+  $('#planBody').innerHTML = hs.map(h => `<section class="hall" id="h${hallOrder(h)}">
+      <h2>${esc(h)}<small>${groups[h].length} 件</small></h2>
+      ${groups[h].map(it => { const s = S[it.key]; return `<div class="pl ${s.v ? 'done' : ''}" data-k="${it.key}">
+        <input type="checkbox" class="ck" id="v_${it.key}" ${s.v ? 'checked' : ''} aria-label="${esc(it.n)} を訪問済にする">
+        ${boothHTML(it.b, it.a)}
+        <label class="nm" for="v_${it.key}">${esc(it.n)}${it.parent ? `<small>${esc(it.parent)} の共同出展</small>` : ''}</label>
+        <button class="x" title="リストから外す" aria-label="${esc(it.n)} をリストから外す">×</button>
+        <input class="memo" id="m_${it.key}" value="${esc(s.m)}" placeholder="メモ（聞きたいこと・担当者名など）">
+      </div>`; }).join('')}
+    </section>`).join('');
+}
+function initPlan(){
+  const body = $('#planBody');
+  body.addEventListener('change', e => {
+    const row = e.target.closest('.pl'); if (!row) return;
+    const s = S[row.dataset.k];
+    if (e.target.classList.contains('ck')) { s.v = e.target.checked ? 1 : 0; row.classList.toggle('done', !!s.v); renderHallChips(); }
+    save(); tally();
+  });
+  body.addEventListener('input', e => {
+    if (!e.target.classList.contains('memo')) return;
+    S[e.target.closest('.pl').dataset.k].m = e.target.value; save();
+  });
+  body.addEventListener('click', e => {
+    if (!e.target.classList.contains('x')) return;
+    delete S[e.target.closest('.pl').dataset.k]; save(); tally(); renderPlan();
+  });
+  $('#copyText').onclick = () => {
+    let cur = '', out = ['CEATEC 2026 訪問リスト'];
+    planItems().forEach(it => {
+      if (it.h !== cur) { cur = it.h; out.push('', '■ ' + it.h); }
+      const s = S[it.key];
+      out.push(`${s.v ? '☑' : '☐'} ${it.b || '未定'}  ${it.n}${it.parent ? '（' + it.parent + '）' : ''}${s.m ? '  … ' + s.m : ''}`);
+    });
+    copy(out.join('\n'), 'テキストをコピーしました');
+  };
+  $('#copyCode').onclick = () => {
+    const code = btoa(unescape(encodeURIComponent(JSON.stringify(S))));
+    $('#code').value = code; copy(code, 'コードをコピーしました');
+  };
+  $('#loadCode').onclick = () => {
+    try {
+      const obj = JSON.parse(decodeURIComponent(escape(atob($('#code').value.trim()))));
+      let n = 0;
+      for (const k in obj) if (ITEMS[k]) { S[k] = {v:obj[k].v ? 1 : 0, m:String(obj[k].m || '')}; n++; }
+      save(); tally(); renderPlan(); toast(n + ' 件を読み込みました');
+    } catch (e) { toast('コードを読めませんでした。コピーした文字列を全部貼り付けてください'); }
+  };
+  $('#clearAll').onclick = () => { $('#clearYes').hidden = false; setTimeout(() => $('#clearYes').hidden = true, 4000); };
+  $('#clearYes').onclick = () => { S = {}; save(); tally(); renderPlan(); $('#clearYes').hidden = true; toast('すべて解除しました'); };
+}
+function renderHallChips(){ const y = scrollY; renderPlanChipsOnly(); scrollTo(0, y); }
+function renderPlanChipsOnly(){
+  const groups = {};
+  planItems().forEach(it => (groups[it.h] = groups[it.h] || []).push(it));
+  $('#halls').innerHTML = Object.keys(groups).map(h => { const g = groups[h]; const d = g.filter(x => S[x.key].v).length;
+    return `<a href="#h${hallOrder(h)}">${esc(h)}　<b>${d}/${g.length}</b></a>`; }).join('');
+}
+function copy(text, msg){
+  const fallback = () => { const c = $('#code'); c.value = text; c.focus(); c.select(); toast('選択しました。Ctrl+C（長押し→コピー）でコピーしてください'); };
+  try { navigator.clipboard.writeText(text).then(() => toast(msg), fallback); } catch (e) { fallback(); }
+}
+
+/* ---------- タブ ---------- */
+function show(tab){
+  const plan = tab === 'plan';
+  $('#pick').hidden = plan; $('#plan').hidden = !plan;
+  $('#tabPick').setAttribute('aria-selected', !plan); $('#tabPlan').setAttribute('aria-selected', plan);
+  if (plan) renderPlan(); else renderList();
+  scrollTo(0, 0);
+}
+$('#tabPick').onclick = () => show('pick');
+$('#tabPlan').onclick = () => show('plan');
+
+$('#nEx').textContent = DATA.length;
+$('#nKid').textContent = DATA.reduce((s, p) => s + (p.k ? p.k.length : 0), 0);
+initControls(); initPlan(); tally(); renderList();
+</script>
